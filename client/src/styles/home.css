@@ -1,0 +1,20 @@
+main {
+    margin : 100px;
+    padding: 20px;
+    
+}
+
+main p {
+    text-align: center;
+    color : white;
+}
+
+#heading {
+    font-size: 60px;
+}
+
+
+#button {
+    margin-top: 80px;
+    font-size: 35px;
+}
