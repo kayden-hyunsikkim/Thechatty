@@ -17,6 +17,9 @@ import Chat from './pages/Chat';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
+
+
+
 import '../src/styles/app.css';
 
 // Construct our main GraphQL API endpoint

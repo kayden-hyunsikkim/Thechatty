@@ -23,3 +23,14 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+export const ADD_TYPE = gql`
+  mutation addUser($type: String!) {
+    addUser(type: $type) {
+      type {
+        _id
+        type
+      }
+    }
+  }
+`;
