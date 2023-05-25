@@ -18,11 +18,6 @@ const styles = {
 }
 
 
-function BorderExample() {
-  return <Spinner animation="border" />;
-}
-
-
 
 const Home = () => {
 
