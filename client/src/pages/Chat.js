@@ -2,29 +2,52 @@ import React, { useState, useEffect } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import ListGroup from 'react-bootstrap/ListGroup';
+
+import { ADD_CHAT,ADD_GENERATEAI} from '../utils/mutations';
+import { QUERY_USER, QUERY_ME, QUERY_TYPE, QUERY_CHAT,QUERY_ANSWER } from '../utils/queries';
 
 
-import { QUERY_USER, QUERY_ME } from '../utils/queries';
+import ChatList from '../components/Chatlist';
+import AnswerList from '../components/Answerlist';
 import '../styles/chat.css';
 import Auth from '../utils/auth';
+
+let content = '';
+
+const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+
+const voiceRecognition = () => {
+    const SpeechRecognition = window.webkitSpeechRecognition; // SpeechRecognition 객체 참조
+    const recognition = new SpeechRecognition();
+    const textbox = document.querySelector('#chatwindow');
+    const instructions = document.querySelector('#instruction');
+    const voiceBtn = document.querySelector('#recognition');
+
+    recognition.continuous = true;
+
+    voiceBtn.addEventListener('click', function () {
+        console.log('voice recognition')
+
+        instructions.innerHTML = "voice recognition";
+    });
+
+}
+
+
 
 const usertype = localStorage.getItem('selectedType');
 
 
 const Chat = () => {
-
     const logout = (event) => {
         event.preventDefault();
         Auth.logout();
     };
 
-    const [chatState, setChatState] = useState({
-        chat: ''
-    });
 
     const { username: userParam } = useParams();
 
@@ -32,32 +55,62 @@ const Chat = () => {
         variables: { username: userParam }
     });
 
+
+    const { loading: typeloading, data: typedata } = useQuery(QUERY_TYPE);
+    const type = typedata;
+    console.log(type);
+
+    const [addChat] = useMutation(ADD_CHAT);
+    const [addAnswer] = useMutation(ADD_GENERATEAI);
+
+
+    const [chatState, setChatState] = useState({
+        chat: ''
+    });
+
     const handlechatChange = (event) => {
         event.preventDefault();
-        setChatState(event.target.value);
+        const { value } = event.target;
+        setChatState({ ...chatState, chat: value, });
+        console.log(chatState);
     };
 
     const handleChatSubmit = async (event) => {
         event.preventDefault();
         console.log(chatState);
-        const { Configuration, OpenAIApi } = require("openai");
-        const configuration = new Configuration({
-            apiKey: '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',
-        });
-        const openai = new OpenAIApi(configuration);
-        const completion = await openai.createChatCompletion({
-            model: "gpt-3.5-turbo",
-            messages: [
-                { role:"system", content: "You are a lovely girlfriend talking to boyfriend" },
-                {
-                    role: "user", content: "i love you?"
-                },
-            ],
-        });
-        console.log(completion.data.choices[0].message.content);
+        const { chat } = chatState;
+        console.log(chat);
+        try {
+            const { data } = await addChat({
+                variables: { chat: chat },
+            });
 
+            //window.location.reload(); // page reload
+
+
+            const { data : generateAI } = await addAnswer({
+                variables: { 
+                    type: type.type[0].type, // added the type(only string) user selected
+                    chat: chat },
+            });
+
+
+        } catch (err) {
+            console.error(err);
+        }
 
     };
+
+    
+    const { loading: chatloading, data: chatdata } = useQuery(QUERY_CHAT);
+    const chats = chatdata?.chat || [];
+    console.log(chats);
+
+    const { loading: answerloading, data: answerdata } = useQuery(QUERY_ANSWER);
+    const answers = answerdata?.answer || [];
+    console.log(answers);
+
+    
 
     const user = data?.me || data?.user || {};
 
@@ -80,11 +133,15 @@ const Chat = () => {
 
     return (
         <>
-            <h1>This is the chat part</h1>
             <div>
-                <div id="chatwindow">
-                
-                </div>
+                <ChatList
+                    chats={chats}
+                    title="Chat~~"
+                />
+                <AnswerList
+                    answers={answers}
+                    title="Answer~~"
+                />
                 <Form onSubmit={handleChatSubmit} className="my-3">
                     <Form.Group className="mb-3" controlId="Username">
                         <Form.Control
@@ -95,10 +152,15 @@ const Chat = () => {
                             name="chat"
                         />
                     </Form.Group>
-                    <Button variant="primary" type="submit">
-                        Submit
+                    <Button id='openai' variant="primary" type="submit" className='me-3'>
+                        open AI
                     </Button>
+                    <Button id='recognition' variant="primary" onClick={voiceRecognition} >
+                        voice recognition
+                    </Button>
+                    <p id='instruction' className='mt-3'>Press the Start button</p>
                 </Form>
+
                 <Container className="d-flex justify-content-center">
                     <Button as={Link} variant="info" className="m-2" to="/chat">
                         Save chat
@@ -108,6 +170,7 @@ const Chat = () => {
                     </Button>
                 </Container>
             </div>
+
         </>
     );
 };

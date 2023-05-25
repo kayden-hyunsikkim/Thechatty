@@ -19,3 +19,35 @@ export const QUERY_ME = gql`
     }
   }
 `;
+
+
+//------ getting type user wants from server-------------//
+export const QUERY_TYPE = gql`
+  query getTYPE {
+    type { 
+      type
+    }
+  }
+`;
+
+//------ getting type user wants from server-------------//
+export const QUERY_CHAT = gql`
+  query getCHAT {
+    chat { 
+      chat
+      createdAt
+    }
+  }
+`;
+
+
+
+//------ getting type user wants from server-------------//
+export const QUERY_ANSWER = gql`
+  query getANSWER {
+    answer { 
+      answer
+      createdAt
+    }
+  }
+`;

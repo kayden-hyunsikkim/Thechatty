@@ -24,13 +24,36 @@ export const ADD_USER = gql`
   }
 `;
 
+
+//------ calling server with new type -------------//
 export const ADD_TYPE = gql`
-  mutation addUser($type: String!) {
-    addUser(type: $type) {
-      type {
+  mutation addType($type: String!) {
+    addType(type: $type) {
         _id
         type
-      }
     }
   }
 `;
+
+//------ calling server with new chat -------------//
+export const ADD_CHAT = gql`
+  mutation addChat($chat: String!) {
+    addChat(chat: $chat) {
+        _id
+        chat
+    }
+  }
+`;
+
+
+//------ calling server to operate openAI -------------//
+export const ADD_GENERATEAI = gql`
+  mutation addAnswer($type: String!, $chat: String!) {
+    addAnswer(type: $type, chat: $chat) {
+        _id
+        answer
+    }
+  }
+`;
+
+
