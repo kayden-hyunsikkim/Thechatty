@@ -9,7 +9,7 @@ const styles = {
 
 const ChatList = ({ chats, title }) => {
   if (!chats.length) {
-    return <h3>No chats Yet</h3>;
+    return <h3> </h3>;
   }
 
   return (

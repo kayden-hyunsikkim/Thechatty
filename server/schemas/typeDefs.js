@@ -32,6 +32,11 @@ const typeDefs = gql`
     createdAt: String
   }
 
+  type DeletionResult {
+    success: Boolean
+    message: String
+  }
+
 
   type Query {
     users: [User]
@@ -49,6 +54,7 @@ const typeDefs = gql`
     addType(type: String!): Type
     addChat(chat: String!): Chat
     addAnswer (type: String!, chat: String!): Answer
+    deleteAllData: DeletionResult
   }
 `;
 

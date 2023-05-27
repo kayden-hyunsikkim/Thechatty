@@ -4,11 +4,14 @@ import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import Form from 'react-bootstrap/Form';
 
-import { ADD_CHAT,ADD_GENERATEAI} from '../utils/mutations';
-import { QUERY_USER, QUERY_ME, QUERY_TYPE, QUERY_CHAT,QUERY_ANSWER } from '../utils/queries';
+import { ADD_CHAT, ADD_GENERATEAI } from '../utils/mutations';
+import { QUERY_USER, QUERY_ME, QUERY_TYPE, QUERY_CHAT, QUERY_ANSWER } from '../utils/queries';
 
 
 import ChatList from '../components/Chatlist';
@@ -16,12 +19,10 @@ import AnswerList from '../components/Answerlist';
 import '../styles/chat.css';
 import Auth from '../utils/auth';
 
-let content = '';
 
-const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
-
+// ============== voice recognition =============================
 const voiceRecognition = () => {
-    const SpeechRecognition = window.webkitSpeechRecognition; // SpeechRecognition 객체 참조
+    const SpeechRecognition = window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
     const textbox = document.querySelector('#chatwindow');
     const instructions = document.querySelector('#instruction');
@@ -37,12 +38,12 @@ const voiceRecognition = () => {
 
 }
 
-
-
-const usertype = localStorage.getItem('selectedType');
-
+// ==============================================================
 
 const Chat = () => {
+
+    const [isLoading, setLoading] = useState(false); // loading for spinner
+
     const logout = (event) => {
         event.preventDefault();
         Auth.logout();
@@ -60,9 +61,38 @@ const Chat = () => {
     const type = typedata;
     console.log(type);
 
-    const [addChat] = useMutation(ADD_CHAT);
-    const [addAnswer] = useMutation(ADD_GENERATEAI);
+    //this is the cache update part to render the changed chat part only first
+    const [addChat, { error }] = useMutation(ADD_CHAT, {
+        update(cache, { data: { addChat } }) {
+            try {
+                const { chat } = cache.readQuery({ query: QUERY_CHAT });
 
+                cache.writeQuery({
+                    query: QUERY_CHAT,
+                    data: { chat: [addChat, ...chat] },
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        },
+    });
+
+
+    //this is the cache update part to render the changed answer part only first
+    const [addAnswer, { error: answererror }] = useMutation(ADD_GENERATEAI, {
+        update(cache, { data: { addAnswer } }) {
+            try {
+                const { answer } = cache.readQuery({ query: QUERY_ANSWER });
+
+                cache.writeQuery({
+                    query: QUERY_ANSWER,
+                    data: { answer: [addAnswer, ...answer] }, // 수정: data 객체에 answer 필드 추가
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        },
+    });
 
     const [chatState, setChatState] = useState({
         chat: ''
@@ -77,40 +107,46 @@ const Chat = () => {
 
     const handleChatSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true); // make the spinner work
         console.log(chatState);
         const { chat } = chatState;
         console.log(chat);
         try {
-            const { data } = await addChat({
+            await addChat({
                 variables: { chat: chat },
             });
 
-            //window.location.reload(); // page reload
-
-
-            const { data : generateAI } = await addAnswer({
-                variables: { 
+            await addAnswer({
+                variables: {
                     type: type.type[0].type, // added the type(only string) user selected
-                    chat: chat },
-            });
+                    chat: chat
+                },
+            })
+
+            setChatState({ chat: '' });
+
+            await setLoading(false)
+
+            //await window.location.reload(); // page reload when get a answer from openAI
 
 
         } catch (err) {
             console.error(err);
         }
 
+
+
     };
 
-    
-    const { loading: chatloading, data: chatdata } = useQuery(QUERY_CHAT);
+
+    const { loading: chatloading, data: chatdata, refetch: refetchChats } = useQuery(QUERY_CHAT);
     const chats = chatdata?.chat || [];
     console.log(chats);
 
-    const { loading: answerloading, data: answerdata } = useQuery(QUERY_ANSWER);
+    const { loading: answerloading, data: answerdata, refetch: refetchAnswers } = useQuery(QUERY_ANSWER);
     const answers = answerdata?.answer || [];
     console.log(answers);
 
-    
 
     const user = data?.me || data?.user || {};
 
@@ -131,17 +167,30 @@ const Chat = () => {
         );
     }
 
+    if (loading || answerloading) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <>
             <div>
-                <ChatList
-                    chats={chats}
-                    title="Chat~~"
-                />
-                <AnswerList
-                    answers={answers}
-                    title="Answer~~"
-                />
+                <Container fluid>
+                    <Row>
+                        <Col xs={12}>
+                            {chats.map((chat, index) => (
+                                <React.Fragment key={index}>
+                                    <ChatList chats={[chat]} title="Chat~~" />
+                                    {answers[index] && (
+                                        <AnswerList answers={[answers[index]]} title="Answer~~" />
+                                    )}
+                                </React.Fragment>
+                            ))}
+                        </Col>
+                    </Row>
+                </Container>
+
+
+
                 <Form onSubmit={handleChatSubmit} className="my-3">
                     <Form.Group className="mb-3" controlId="Username">
                         <Form.Control
@@ -150,19 +199,30 @@ const Chat = () => {
                             onChange={handlechatChange}
                             value={chatState.chat}
                             name="chat"
+                            autoFocus
                         />
                     </Form.Group>
-                    <Button id='openai' variant="primary" type="submit" className='me-3'>
-                        open AI
+                    <Button id='openai' variant="primary" type="submit" className='me-3' disabled={isLoading}>
+                        {isLoading ? (
+                            <>
+                                <Spinner
+                                    as="span"
+                                    animation="border"
+                                    size="sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                />
+                                <span className="ms-1">Loading...</span>
+                            </>
+                        ) : (
+                            'OpenAI' // 로딩 중이 아닌 경우 텍스트 표시
+                        )}
+
                     </Button>
-                    <Button id='recognition' variant="primary" onClick={voiceRecognition} >
-                        voice recognition
-                    </Button>
-                    <p id='instruction' className='mt-3'>Press the Start button</p>
                 </Form>
 
                 <Container className="d-flex justify-content-center">
-                    <Button as={Link} variant="info" className="m-2" to="/chat">
+                    <Button as={Link} variant="info" className="m-2" to="/chat" >
                         Save chat
                     </Button>
                     <Button as={Link} variant="info" className="m-2" onClick={logout} to="/">

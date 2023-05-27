@@ -7,9 +7,10 @@ const styles = {
     }
 }
 
+
 const AnswerList = ({ answers, title }) => {
   if (!answers.length) {
-    return <h3>No answers Yet</h3>;
+    return <h3> </h3>;
   }
 
   return (

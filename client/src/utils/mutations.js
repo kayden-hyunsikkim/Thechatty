@@ -46,12 +46,23 @@ export const ADD_CHAT = gql`
 `;
 
 
+
 //------ calling server to operate openAI -------------//
 export const ADD_GENERATEAI = gql`
   mutation addAnswer($type: String!, $chat: String!) {
     addAnswer(type: $type, chat: $chat) {
         _id
         answer
+    }
+  }
+`;
+
+
+//------ calling server to operate openAI -------------//
+export const DELETE_ALL_DATA = gql`
+  mutation deleteAllData {
+    deleteAllData {
+      success
     }
   }
 `;
