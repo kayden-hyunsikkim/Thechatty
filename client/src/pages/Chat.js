@@ -222,8 +222,8 @@ const Chat = () => {
                 </Form>
 
                 <Container className="d-flex justify-content-center">
-                    <Button as={Link} variant="info" className="m-2" to="/chat" >
-                        Save chat
+                    <Button as={Link} variant='info' className="m-2" to="/me">
+                        {Auth.getProfile().data.username}'s profile
                     </Button>
                     <Button as={Link} variant="info" className="m-2" onClick={logout} to="/">
                         Finish chat

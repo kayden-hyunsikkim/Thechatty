@@ -51,3 +51,14 @@ export const QUERY_ANSWER = gql`
     }
   }
 `;
+
+
+//------ getting type user wants from server-------------//
+//export const QUERY_CONVERSATION = gql`
+//  query getCONVERSATION {
+//    conversation { 
+//      conversation
+//      createdAt
+//    }
+//  }
+//`;
