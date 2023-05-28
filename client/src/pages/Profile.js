@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 
-import { QUERY_USER, QUERY_ME } from '../utils/queries';
+import { QUERY_USER, QUERY_ME, QUERY_CHAT, QUERY_ANSWER } from '../utils/queries';
 
 import Auth from '../utils/auth';
 
@@ -15,7 +15,16 @@ const Profile = () => {
     variables: { username: userParam },
   });
 
+  const { loading: chatloading, data: chatdata } = useQuery(QUERY_CHAT);
+  const chats = chatdata?.chat || [];
+  console.log(chats);
+
+  const { loading: answerloading, data: answerdata } = useQuery(QUERY_ANSWER);
+  const answers = answerdata?.answer || [];
+  console.log(answers);
+
   const user = data?.me || data?.user || {};
+
   // navigate to personal profile page if username is yours
   if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
     return <Navigate to="/me" />;
@@ -35,12 +44,23 @@ const Profile = () => {
   }
 
   return (
-    <Card style={{ width: '20rem' }}>
+    <Card style={{ width: '100%' }}>
       <Card.Header>User Details</Card.Header>
       <ListGroup variant="flush">
-        <ListGroup.Item>Id: {user._id}</ListGroup.Item>
         <ListGroup.Item>Email: {user.email}</ListGroup.Item>
         <ListGroup.Item>Username: {user.username}</ListGroup.Item>
+        <ListGroup.Item>
+          Conversations:
+          <ul>
+            {chats.map((chat, index) => (
+              <li key={chat._id}>
+                <strong>Chat:</strong> {chat.chat}
+                <br />
+                <strong>Answer:</strong> {answers[index]?.answer}
+              </li>
+            ))}
+          </ul>
+        </ListGroup.Item>
       </ListGroup>
     </Card>
   );

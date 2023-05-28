@@ -1,8 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User } = require('../models');
-const { Type } = require('../models');
-const { Chat } = require('../models');
-const { Answer } = require('../models');
+const { User,Type,Chat,Answer,Conversation } = require('../models');
 const { signToken } = require('../utils/auth');
 const { Configuration, OpenAIApi } = require("openai"); //---> this part occur proxy error
 
@@ -89,6 +86,7 @@ const resolvers = {
           },
         ],
       });
+      
 
       // API 응답에서 대화 결과 추출
       const chatResult = completion.data.choices[0].message.content;
@@ -102,6 +100,14 @@ const resolvers = {
       return Aianswer;
 
     },
+
+    //saveConversation: async (parent, { chat,answer }) => {
+//
+    //  //await Chat.deleteMany(); // --> delete all old chat data first (this should be deleted)
+    //  const userconversation = await Conversation.create({ chat,answer }); // --> creat a new chat data
+    //  return userconversation;
+    //},
+
 
     deleteAllData: async () => {
 

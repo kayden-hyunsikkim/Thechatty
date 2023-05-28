@@ -32,6 +32,8 @@ const typeDefs = gql`
     createdAt: String
   }
 
+ 
+
   type DeletionResult {
     success: Boolean
     message: String
@@ -45,6 +47,7 @@ const typeDefs = gql`
     type: [Type]
     chat: [Chat]
     answer: [Answer]
+    
   }
 
 
@@ -54,6 +57,7 @@ const typeDefs = gql`
     addType(type: String!): Type
     addChat(chat: String!): Chat
     addAnswer (type: String!, chat: String!): Answer
+    
     deleteAllData: DeletionResult
   }
 `;
