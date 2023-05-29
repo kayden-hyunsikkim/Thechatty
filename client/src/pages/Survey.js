@@ -11,7 +11,7 @@ import Select from "react-select";
 
 import { QUERY_USER, QUERY_ME } from '../utils/queries';
 
-import '../styles/survey.css';
+import '../styles/pages.css';
 import Auth from '../utils/auth';
 
 
@@ -78,10 +78,9 @@ const Survey = () => {
   
   return (
     <>
-      <h1>Please choose the coversation style of chatty !!</h1>
       <div>
         <div id='surveyform'>
-          <p>Type</p>
+          <p>The Chatting type</p>
           <Form  >
             <Form.Select aria-label="Default select example" onChange={handleTypeChange} value={selectedType.type}>
               <option>Select type which you want</option>
@@ -90,7 +89,7 @@ const Survey = () => {
               <option name="GIRLFRIEND" value="you are a lovely girlfriend talking to boyfriend">Girlfriend</option>
               <option name="BOYFRIEND" value="you are a lovely boyfriend talking to girlfriend">Boyfriend</option>
             </Form.Select>
-            <Container className="d-flex justify-content-center">
+            <Container id="gotochat" className="d-flex justify-content-center">
               <Button  onClick={handlesurveyFormSubmit} variant='info' className="m-2">
                 Go to chat
               </Button>

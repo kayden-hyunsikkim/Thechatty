@@ -58,7 +58,8 @@ export const ADD_GENERATEAI = gql`
 `;
 
 
-//------ calling server to operate openAI -------------//
+
+//------ calling server to operate openAI ---------------//
 export const DELETE_ALL_DATA = gql`
   mutation deleteAllData {
     deleteAllData {
@@ -66,6 +67,8 @@ export const DELETE_ALL_DATA = gql`
     }
   }
 `;
+
+
 
 //------ calling server to save conversation -------------//
 export const ADD_CONVERSATION = gql`

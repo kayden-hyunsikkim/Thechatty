@@ -49,7 +49,7 @@ const Home = () => {
   return (
     <main>
       <p id ="heading" style = {styles.text}>The Chatty</p>
-      <p style = {styles.text}>OpenAI's chatbot is a product of innovative artificial intelligence technology, interacting with users in various fields and providing valuable conversations. This chatbot is based on the large language model ChatGPT and has great natural language processing capabilities. The OpenAI chatbot understands users' questions and requests and provides appropriate answers.</p>
+      <p style = {styles.text}>The Chatty's chatbot is a product of innovative artificial intelligence technology, interacting with users in various fields and providing valuable conversations. This chatbot is based on the large language model ChatGPT and has great natural language processing capabilities. The The Chatty chatbot understands users' questions and requests and provides appropriate answers.</p>
       <div>
           {Auth.loggedIn() ? (
             <>
