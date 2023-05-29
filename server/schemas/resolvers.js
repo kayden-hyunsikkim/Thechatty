@@ -27,6 +27,16 @@ const resolvers = {
     answer: async () => {
       return Answer.find();
     },
+    conversation: async (parent, args, context) => {
+      if (!context.user ) {
+        throw new AuthenticationError('You must be logged in.');
+      }
+    
+      // 특정 사용자 ID에 해당하는 Conversation을 가져옵니다.
+      const userConversations = await Conversation.find({ user:context.user._id  });
+      return userConversations;
+    },
+    
   },
 
   Mutation: {
@@ -101,12 +111,12 @@ const resolvers = {
 
     },
 
-    addConversation: async (parent, { chat, answer }) => {
-
-      const userconversation = await Conversation.create({ chat, answer }); // --> creat a new chat data
-      console.log(`this is created conversation ${userconversation}`);
+    addConversation: async (parent, { chat, answer, user_id },context) => {
+      const userconversation = await Conversation.create({ chat, answer, user:context.user._id  });
+      console.log(`This is the created conversation: ${userconversation}`);
       return userconversation;
     },
+    
 
 
     deleteAllData: async () => {
@@ -114,7 +124,6 @@ const resolvers = {
       try {
         await Chat.deleteMany(); // 이 부분에서 await 키워드를 사용하여 Promise가 처리될 때까지 대기합니다.
         await Answer.deleteMany(); // 이 부분에서도 await 키워드를 사용합니다.
-        
         return true; // 데이터 삭제가 성공했을 경우 true를 반환합니다.
       } catch (error) {
         console.error(error);

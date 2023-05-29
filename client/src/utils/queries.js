@@ -57,9 +57,11 @@ export const QUERY_ANSWER = gql`
 export const QUERY_CONVERSATION = gql`
   query getCONVERSATION {
     conversation {
+      _id
       chat
       answer
       createdAt
-    }
   }
+}
+
 `;
