@@ -3,10 +3,16 @@ const dateFormat = require('../utils/dateFormat');
 
 
 const conversationSchema = new Schema({
-  conversation: {
+  chat: {
     type: String,
     minlength: 1,
-    maxlength: 10000,
+    maxlength: 1000,
+    trim: true,
+  },
+  answer: {
+    type: String,
+    minlength: 1,
+    maxlength: 1000,
     trim: true,
   },
   createdAt: {

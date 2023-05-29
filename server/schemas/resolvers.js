@@ -90,7 +90,7 @@ const resolvers = {
 
       // API 응답에서 대화 결과 추출
       const chatResult = completion.data.choices[0].message.content;
-      console.log(chatResult);
+      //console.log(chatResult);
 
       //await Answer.deleteMany(); // --> delete all old answer data first (this should be deleted)
       const Aianswer = await Answer.create({ answer: chatResult }); // --> creat a new answer data from Ai
@@ -101,12 +101,12 @@ const resolvers = {
 
     },
 
-    //saveConversation: async (parent, { chat,answer }) => {
-//
-    //  //await Chat.deleteMany(); // --> delete all old chat data first (this should be deleted)
-    //  const userconversation = await Conversation.create({ chat,answer }); // --> creat a new chat data
-    //  return userconversation;
-    //},
+    addConversation: async (parent, { chat, answer }) => {
+
+      const userconversation = await Conversation.create({ chat, answer }); // --> creat a new chat data
+      console.log(`this is created conversation ${userconversation}`);
+      return userconversation;
+    },
 
 
     deleteAllData: async () => {

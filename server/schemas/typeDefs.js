@@ -32,7 +32,12 @@ const typeDefs = gql`
     createdAt: String
   }
 
- 
+  type Conversation {
+    _id: ID
+    chat: String
+    answer: String
+    createdAt: String
+  }
 
   type DeletionResult {
     success: Boolean
@@ -47,7 +52,7 @@ const typeDefs = gql`
     type: [Type]
     chat: [Chat]
     answer: [Answer]
-    
+    conversation: [Conversation]
   }
 
 
@@ -57,7 +62,7 @@ const typeDefs = gql`
     addType(type: String!): Type
     addChat(chat: String!): Chat
     addAnswer (type: String!, chat: String!): Answer
-    
+    addConversation (chat: String!, answer:String!): Conversation
     deleteAllData: DeletionResult
   }
 `;

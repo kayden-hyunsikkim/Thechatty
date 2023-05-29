@@ -68,11 +68,12 @@ export const DELETE_ALL_DATA = gql`
 `;
 
 //------ calling server to save conversation -------------//
-//export const ADD_CONVERSATION = gql`
-//  mutation addConversation($chat: String!, $answer: String!) {
-//    addAnswer(chat: $chat, answer: $answer) {
-//        _id
-//        conversation
-//    }
-//  }
-//`;
+export const ADD_CONVERSATION = gql`
+mutation addConversation($chat: String!, $answer: String!) {
+  addConversation(chat: $chat, answer: $answer) {
+    _id
+    chat
+    answer
+  }
+}
+`;
