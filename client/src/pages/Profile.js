@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 
-import { QUERY_USER, QUERY_ME, QUERY_CHAT, QUERY_ANSWER } from '../utils/queries';
+import { QUERY_USER, QUERY_ME, QUERY_CHAT, QUERY_ANSWER,QUERY_CONVERSATION } from '../utils/queries';
 
 import Auth from '../utils/auth';
 
@@ -22,6 +22,14 @@ const Profile = () => {
   const { loading: answerloading, data: answerdata } = useQuery(QUERY_ANSWER);
   const answers = answerdata?.answer || [];
   console.log(answers);
+
+ const { loading: conversationloading, data: conversationdata } = useQuery(QUERY_CONVERSATION);
+
+ 
+ const conversation = conversationdata;
+ console.log(conversation);
+
+
 
   const user = data?.me || data?.user || {};
 
@@ -61,6 +69,7 @@ const Profile = () => {
             ))}
           </ul>
         </ListGroup.Item>
+        
       </ListGroup>
     </Card>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import Form from 'react-bootstrap/Form';
 
-import { ADD_CHAT, ADD_GENERATEAI } from '../utils/mutations';
+import { ADD_CHAT, ADD_GENERATEAI, ADD_CONVERSATION } from '../utils/mutations';
 import { QUERY_USER, QUERY_ME, QUERY_TYPE, QUERY_CHAT, QUERY_ANSWER } from '../utils/queries';
 
 
@@ -41,7 +41,6 @@ const voiceRecognition = () => {
 // ==============================================================
 
 const Chat = () => {
-
     const [isLoading, setLoading] = useState(false); // loading for spinner
 
     const logout = (event) => {
@@ -102,15 +101,15 @@ const Chat = () => {
         event.preventDefault();
         const { value } = event.target;
         setChatState({ ...chatState, chat: value, });
-        console.log(chatState);
+        //console.log(chatState);
     };
 
     const handleChatSubmit = async (event) => {
         event.preventDefault();
         setLoading(true); // make the spinner work
-        console.log(chatState);
+        //console.log(chatState);
         const { chat } = chatState;
-        console.log(chat);
+        //console.log(chat);
         try {
             await addChat({
                 variables: { chat: chat },
@@ -134,18 +133,59 @@ const Chat = () => {
             console.error(err);
         }
 
+    };
 
+    const [addConversation, { error: conversationError }] = useMutation(ADD_CONVERSATION);
 
+    const saveConversation = async () => {
+        const parsedchatData = JSON.parse(localStorage.getItem('chatlog'));
+        const newChatArray = parsedchatData.map((data) => data.chat);
+        console.log(newChatArray);
+
+        const parsedanswerData = JSON.parse(localStorage.getItem('answerlog'));
+        const newanswerArray = parsedanswerData.map((data) => data.answer);
+        console.log(newanswerArray);
+
+        try {
+            for (let i = 0; i < newChatArray.length; i++) {
+                await addConversation({
+                    variables: {
+                        chat: newChatArray[i],
+                        answer: parsedanswerData[i].answer,
+                    },
+                });
+
+                console.log('Conversation saved successfully!');
+                // Additional tasks to perform here
+            }
+
+        } catch (error) {
+            console.error('Failed to save conversation:', error);
+        }
+    };
+
+    // 프로필 버튼을 클릭했을 때 saveConversation 함수 호출
+    const handleProfileButtonClick = () => {
+        saveConversation();
     };
 
 
-    const { loading: chatloading, data: chatdata, refetch: refetchChats } = useQuery(QUERY_CHAT);
-    const chats = chatdata?.chat || [];
-    console.log(chats);
 
-    const { loading: answerloading, data: answerdata, refetch: refetchAnswers } = useQuery(QUERY_ANSWER);
+    const { loading: chatloading, data: chatdata } = useQuery(QUERY_CHAT);
+    const chats = chatdata?.chat || [];
+   // console.log(chats);
+    //console.log(chats[0].chat)
+    const chatlog = JSON.stringify(chats);
+    localStorage.setItem('chatlog', chatlog);
+
+    const { loading: answerloading, data: answerdata } = useQuery(QUERY_ANSWER);
     const answers = answerdata?.answer || [];
-    console.log(answers);
+    //console.log(answers);
+    //console.log(answers[0].answer)
+    const answerlog = JSON.stringify(answers);
+    localStorage.setItem('answerlog', answerlog);
+
+
 
 
     const user = data?.me || data?.user || {};
@@ -222,10 +262,10 @@ const Chat = () => {
                 </Form>
 
                 <Container className="d-flex justify-content-center">
-                    <Button as={Link} variant='info' className="m-2" to="/me">
-                        {Auth.getProfile().data.username}'s profile
+                    <Button variant='info' className="m-2" onClick={handleProfileButtonClick}>
+                        save chat
                     </Button>
-                    <Button as={Link} variant="info" className="m-2" onClick={logout} to="/">
+                    <Button as={Link} variant="info" className="m-2" to="/me">
                         Finish chat
                     </Button>
                 </Container>
