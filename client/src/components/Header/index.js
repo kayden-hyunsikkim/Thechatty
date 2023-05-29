@@ -6,14 +6,8 @@ import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
 
 import Auth from '../../utils/auth';
+import '../Header/header.css'
 
-
-const styles = {
-  background: {
-    backgroundColor: '#008080',
-    border: 'none'
-  }
-}
 
 
 const Header = () => {
@@ -22,13 +16,15 @@ const Header = () => {
     Auth.logout();
   };
   return (
-    <Navbar id='border' variant="light">
+    <div>
+    <Navbar id='header' variant="light">
       <Container>
         <Nav className="me-auto">
-          <Nav.Link style={{ color: 'white', fontSize: '25px' }} as={Link} to="/">⚝ Home</Nav.Link>
+          <Nav.Link  id='home' as={Link} to="/">⚝ Home</Nav.Link>
         </Nav>
       </Container>
     </Navbar>
+    </div>
   );
 };
 

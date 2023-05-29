@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
@@ -16,31 +16,32 @@ import { QUERY_USER, QUERY_ME, QUERY_TYPE, QUERY_CHAT, QUERY_ANSWER } from '../u
 
 import ChatList from '../components/Chatlist';
 import AnswerList from '../components/Answerlist';
-import '../styles/chat.css';
 import Auth from '../utils/auth';
 
 
 // ============== voice recognition =============================
-const voiceRecognition = () => {
-    const SpeechRecognition = window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    const textbox = document.querySelector('#chatwindow');
-    const instructions = document.querySelector('#instruction');
-    const voiceBtn = document.querySelector('#recognition');
-
-    recognition.continuous = true;
-
-    voiceBtn.addEventListener('click', function () {
-        console.log('voice recognition')
-
-        instructions.innerHTML = "voice recognition";
-    });
-
-}
+//const voiceRecognition = () => {
+//    const SpeechRecognition = window.webkitSpeechRecognition;
+//    const recognition = new SpeechRecognition();
+//    const textbox = document.querySelector('#chatwindow');
+//    const instructions = document.querySelector('#instruction');
+//    const voiceBtn = document.querySelector('#recognition');
+//
+//    recognition.continuous = true;
+//
+//    voiceBtn.addEventListener('click', function () {
+//        console.log('voice recognition')
+//
+//        instructions.innerHTML = "voice recognition";
+//    });
+//
+//}
 
 // ==============================================================
 
 const Chat = () => {
+
+    
     const [isLoading, setLoading] = useState(false); // loading for spinner
 
     const logout = (event) => {
@@ -173,7 +174,7 @@ const Chat = () => {
 
     const { loading: chatloading, data: chatdata } = useQuery(QUERY_CHAT);
     const chats = chatdata?.chat || [];
-   // console.log(chats);
+    // console.log(chats);
     //console.log(chats[0].chat)
     const chatlog = JSON.stringify(chats);
     localStorage.setItem('chatlog', chatlog);
@@ -185,8 +186,24 @@ const Chat = () => {
     const answerlog = JSON.stringify(answers);
     localStorage.setItem('answerlog', answerlog);
 
+    const chatAreaRef = useRef(null);
 
+    // 스크롤을 아래로 이동시키는 함수
+    const scrollToBottom = () => {
+        if (chatAreaRef.current) {
+            chatAreaRef.current.scrollTop = chatAreaRef.current.scrollHeight;
+        }
+    };
 
+    // 새로운 채팅이 추가될 때마다 스크롤을 아래로 이동
+    useEffect(() => {
+        scrollToBottom();
+    }, [chats]); // chats 배열에 변화가 있을 때마다 호출되도록 설정
+
+    // 답변이 추가될 때마다 스크롤을 아래로 이동
+  useEffect(() => {
+    scrollToBottom();
+  }, [answers]); // answers 배열에 변화가 있을 때마다 호출되도록 설정
 
     const user = data?.me || data?.user || {};
 
@@ -214,15 +231,13 @@ const Chat = () => {
     return (
         <>
             <div>
-                <Container fluid>
+                <Container fluid className="mt-5">
                     <Row>
-                        <Col xs={12}>
+                        <Col xs={12} id="chatarea" ref={chatAreaRef} style={{ height: '400px', overflowY: 'scroll', overflowX: 'hidden' }}>
                             {chats.map((chat, index) => (
                                 <React.Fragment key={index}>
-                                    <ChatList chats={[chat]} title="Chat~~" />
-                                    {answers[index] && (
-                                        <AnswerList answers={[answers[index]]} title="Answer~~" />
-                                    )}
+                                    <ChatList chats={[chat]} title="You" />
+                                    {answers[index] && <AnswerList answers={[answers[index]]} title="Chatty" />}
                                 </React.Fragment>
                             ))}
                         </Col>
@@ -231,8 +246,9 @@ const Chat = () => {
 
 
 
-                <Form onSubmit={handleChatSubmit} className="my-3">
-                    <Form.Group className="mb-3" controlId="Username">
+                <Form onSubmit={handleChatSubmit} className="mt-4">
+
+                    <Form.Group className="mb-3" controlId="Username" id='formgroup'>
                         <Form.Control
                             type="text"
                             placeholder="Send a message"
@@ -242,7 +258,7 @@ const Chat = () => {
                             autoFocus
                         />
                     </Form.Group>
-                    <Button id='openai' variant="primary" type="submit" className='me-3' disabled={isLoading}>
+                    <Button id='sendBtn' variant="light" type="submit" className='me-3' disabled={isLoading}>
                         {isLoading ? (
                             <>
                                 <Spinner
@@ -255,7 +271,7 @@ const Chat = () => {
                                 <span className="ms-1">Loading...</span>
                             </>
                         ) : (
-                            'OpenAI' // 로딩 중이 아닌 경우 텍스트 표시
+                            'Send✈️' // 로딩 중이 아닌 경우 텍스트 표시
                         )}
 
                     </Button>
