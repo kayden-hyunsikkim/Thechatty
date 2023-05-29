@@ -62,7 +62,7 @@ const typeDefs = gql`
     addType(type: String!): Type
     addChat(chat: String!): Chat
     addAnswer (type: String!, chat: String!): Answer
-    addConversation (chat: String!, answer:String!): Conversation
+    addConversation(chat: String!, answer: String!): Conversation
     deleteAllData: DeletionResult
   }
 `;

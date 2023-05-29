@@ -153,6 +153,7 @@ const Chat = () => {
                     variables: {
                         chat: newChatArray[i],
                         answer: parsedanswerData[i].answer,
+                        user_id: userId, // 사용자 ID 추가
                     },
                 });
 
@@ -206,6 +207,8 @@ const Chat = () => {
   }, [answers]); // answers 배열에 변화가 있을 때마다 호출되도록 설정
 
     const user = data?.me || data?.user || {};
+    const userId = user._id;
+    console.log(userId); 
 
     // navigate to personal profile page if username is yours
     if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {

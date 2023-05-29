@@ -55,6 +55,7 @@ const Profile = () => {
     <Card style={{ width: '100%' }}>
       <Card.Header>User Details</Card.Header>
       <ListGroup variant="flush">
+        <ListGroup.Item>Id: {user._id}</ListGroup.Item>
         <ListGroup.Item>Email: {user.email}</ListGroup.Item>
         <ListGroup.Item>Username: {user.username}</ListGroup.Item>
         <ListGroup.Item>

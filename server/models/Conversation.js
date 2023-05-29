@@ -15,6 +15,10 @@ const conversationSchema = new Schema({
     maxlength: 1000,
     trim: true,
   },
+  user:{
+    type:Schema.Types.ObjectId,
+    ref: 'User',
+  },
   createdAt: {
     type: Date,
     default: Date.now,
