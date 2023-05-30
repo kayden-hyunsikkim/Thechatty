@@ -3,11 +3,10 @@ import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { ADD_TYPE } from '../utils/mutations';
 import { useQuery } from '@apollo/client';
-import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Select from "react-select";
+
 
 import { QUERY_USER, QUERY_ME } from '../utils/queries';
 
@@ -90,7 +89,7 @@ const Survey = () => {
               <option name="BOYFRIEND" value="you are a lovely boyfriend talking to girlfriend">Boyfriend</option>
             </Form.Select>
             <Container id="gotochat" className="d-flex justify-content-center">
-              <Button  onClick={handlesurveyFormSubmit} variant='info' className="m-2">
+              <Button id='button' onClick={handlesurveyFormSubmit} variant='outline-danger' className="m-2">
                 Go to chat
               </Button>
             </Container>
