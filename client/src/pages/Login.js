@@ -53,7 +53,7 @@ const Login = (props) => {
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" placeholder="Password" onChange={handleChange} value={formState.password} name='password' />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button id='button' variant='outline-danger' type="submit">
           Submit
         </Button>
       </Form>

@@ -7,6 +7,7 @@ import Alert from 'react-bootstrap/Alert';
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
 
+import '../styles/home.css';
 import Auth from '../utils/auth';
 
 const Signup = () => {
@@ -62,7 +63,7 @@ const Signup = () => {
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" placeholder="Password" onChange={handleChange} value={formState.password} name='password' />
           </Form.Group>
-          <Button variant="primary" type="submit">
+          <Button id='button' variant='outline-danger' type="submit">
             Submit
           </Button>
         </Form>
