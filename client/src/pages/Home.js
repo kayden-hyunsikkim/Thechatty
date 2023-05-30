@@ -17,12 +17,13 @@ const styles = {
   },
 }
 
-
+const Reload = () => {
+  window.location.reload();
+}
 
 
 const Home = () => {
-
-
+ 
   const logout = (event) => {
     event.preventDefault();
     Auth.logout();
@@ -45,6 +46,8 @@ const Home = () => {
     fetchData();
 
   }, []);
+
+  
   
   return (
     <main>
