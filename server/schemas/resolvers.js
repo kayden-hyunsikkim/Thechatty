@@ -105,6 +105,7 @@ const resolvers = {
       //await Answer.deleteMany(); // --> delete all old answer data first (this should be deleted)
       const Aianswer = await Answer.create({ answer: chatResult }); // --> creat a new answer data from Ai
       console.log(Aianswer);
+    
 
 
       return Aianswer;
