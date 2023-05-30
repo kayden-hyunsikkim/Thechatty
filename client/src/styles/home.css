@@ -1,16 +1,18 @@
 main {
-    margin : 100px;
-    padding: 20px;  
-    border:5px solid white;
+    margin: 100px;
+    padding: 50px;
+    border: 5px solid white;
     border-radius: 20px;
-    backdrop-filter: blur(3px); /* 흐림 효과 적용 */
+    backdrop-filter: blur(3px);
+    /* 흐림 효과 적용 */
 
 }
 
 main p {
     text-align: center;
-    color : black;
-   
+    color: black;
+    text-shadow: 0 0 1px black;
+
 }
 
 #heading {
@@ -20,6 +22,43 @@ main p {
 
 
 #button {
-    margin-top: 80px;
-    font-size: 35px;
+    color: white;
+    font-size: 20px;
+    background-color: rgb(255, 132, 1);
+}
+
+#button:hover {
+    color: black;
+
+}
+
+
+#startChatbutton {
+    font-family: 'Kalam';
+    color: rgb(10, 8, 0);
+    font-size: 20px;
+    background-color: rgb(255, 132, 1);
+}
+
+#startChatbutton:hover {
+    color: white;
+
+}
+
+.excited-text {
+    animation: heartbeat 1s infinite;
+}
+
+@keyframes heartbeat {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }

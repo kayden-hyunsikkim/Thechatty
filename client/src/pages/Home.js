@@ -54,10 +54,10 @@ const Home = () => {
           {Auth.loggedIn() ? (
             <>
             <Container className="d-flex justify-content-center">
-              <Button as={Link} variant='info' className="m-2" to="/survey">
-                Hi! {Auth.getProfile().data.username}! Do you want to start chatting?
+              <Button id ='startChatbutton' as={Link} variant='outline-danger' className="m-2" to="/survey">
+                <span className="excited-text">Hi! {Auth.getProfile().data.username}! Do you want to start chatting?</span>
               </Button>
-              <Button className="m-2" onClick={logout}>
+              <Button  id='button' variant='outline-danger' className="m-2" onClick={logout}>
                 Logout
               </Button>
             </Container>
@@ -65,10 +65,10 @@ const Home = () => {
           ) : (
             <>
               <Container className="d-flex justify-content-center">
-                <Button style={{ color: 'white', fontSize: '20px' }} as={Link} className="m-2"  to="/login">
+                <Button id='button'  as={Link} variant='outline-danger' className="m-2"  to="/login">
                   Login
                 </Button>
-                <Button style={{ color: 'white', fontSize: '20px' }} as={Link} className="m-2" to="/signup">
+                <Button id='button'  as={Link} variant='outline-danger' className="m-2" to="/signup">
                   Signup
                 </Button>
               </Container>

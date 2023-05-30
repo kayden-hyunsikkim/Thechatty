@@ -153,7 +153,7 @@ const Chat = () => {
                     variables: {
                         chat: newChatArray[i],
                         answer: parsedanswerData[i].answer,
-                        user_id: userId, // 사용자 ID 추가
+                        user_id: user._id, // 사용자 ID 추가
                     },
                 });
 
@@ -207,8 +207,7 @@ const Chat = () => {
   }, [answers]); // answers 배열에 변화가 있을 때마다 호출되도록 설정
 
     const user = data?.me || data?.user || {};
-    const userId = user._id;
-    console.log(userId); 
+    //const userId = user._id;
 
     // navigate to personal profile page if username is yours
     if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
@@ -261,7 +260,7 @@ const Chat = () => {
                             autoFocus
                         />
                     </Form.Group>
-                    <Button id='sendBtn' variant="light" type="submit" className='me-3' disabled={isLoading}>
+                    <Button id='sendBtn' variant="warning" type="submit" className='me-3' disabled={isLoading}>
                         {isLoading ? (
                             <>
                                 <Spinner
@@ -281,10 +280,10 @@ const Chat = () => {
                 </Form>
 
                 <Container className="d-flex justify-content-center">
-                    <Button variant='info' className="m-2" onClick={handleProfileButtonClick}>
+                    <Button id='button' variant='outline-danger' className="m-2" onClick={handleProfileButtonClick}>
                         save chat
                     </Button>
-                    <Button as={Link} variant="info" className="m-2" to="/me">
+                    <Button as={Link} id='button' variant='outline-danger' className="m-2" to="/me">
                         Finish chat
                     </Button>
                 </Container>
