@@ -20,7 +20,7 @@ const Header = () => {
     <Navbar id='header' variant="light">
       <Container>
         <Nav className="me-auto">
-          <Nav.Link  id='home' as={Link} to="/">⚝ Home</Nav.Link>
+          <Nav.Link  id='home' as={Link} to="/" >⚝ Home</Nav.Link>
         </Nav>
       </Container>
     </Navbar>

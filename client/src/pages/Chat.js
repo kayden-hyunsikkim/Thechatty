@@ -108,9 +108,9 @@ const Chat = () => {
     const handleChatSubmit = async (event) => {
         event.preventDefault();
         setLoading(true); // make the spinner work
-        //console.log(chatState);
+        console.log(chatState);
         const { chat } = chatState;
-        //console.log(chat);
+        console.log(chat);
         try {
             await addChat({
                 variables: { chat: chat },
@@ -127,8 +127,7 @@ const Chat = () => {
 
             await setLoading(false)
 
-            //await window.location.reload(); // page reload when get a answer from openAI
-
+        
 
         } catch (err) {
             console.error(err);
@@ -175,14 +174,14 @@ const Chat = () => {
 
     const { loading: chatloading, data: chatdata } = useQuery(QUERY_CHAT);
     const chats = chatdata?.chat || [];
-    // console.log(chats);
+     console.log(chats);
     //console.log(chats[0].chat)
     const chatlog = JSON.stringify(chats);
     localStorage.setItem('chatlog', chatlog);
 
     const { loading: answerloading, data: answerdata } = useQuery(QUERY_ANSWER);
     const answers = answerdata?.answer || [];
-    //console.log(answers);
+    console.log(answers);
     //console.log(answers[0].answer)
     const answerlog = JSON.stringify(answers);
     localStorage.setItem('answerlog', answerlog);
