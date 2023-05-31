@@ -13,4 +13,10 @@
 
 
 
-
+@media screen and (max-width: 480px)  {
+    #home {
+        color:white;
+        font-size:15px;
+        backdrop-filter: blur(3px); /* 흐림 효과 적용 */
+    }
+}

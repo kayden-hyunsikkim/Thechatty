@@ -64,71 +64,50 @@ main p {
 }
 
 
-@media screen and (min-width:1520px) {
+@media screen and (min-width:1500px) {
 
     main {
         height: 600px;
-        margin: 100px;
-        padding: 50px;
-        border: 5px solid white;
-        border-radius: 20px;
         backdrop-filter: blur(6px);
 
     }
-
-
     main p {
-        text-align: center;
-        color: black;
-        text-shadow: 0 0 1px black;
         font-size:25px;
     }
 
     #heading {
         font-size: 90px;
-        font-family: 'Allan';
     }
 
 }
 
 
-@media screen and (max-width:480px) {
+@media screen and (max-width: 480px)  {
+
+    html, body {
+        height: 100%;
+        overflow-y: auto;
+      }
 
     main {
-        height: 300px;
-        margin: 20px;
+        height: 800px;
+        margin: 10px;
         padding: 50px;
-        border: 5px solid white;
-        border-radius: 20px;
         backdrop-filter: blur(6px);
 
     }
 
 
     main p {
-        text-align: center;
-        color: black;
-        text-shadow: 0 0 1px black;
-        font-size:5px;
+        font-size:23px;
     }
 
     #heading {
-        font-size: 30px;
-        font-family: 'Allan';
-    }
-
-    #button {
-        color: white;
-        font-size: 5px;
-        background-color: rgb(255, 132, 1);
+        font-size: 60px;
     }
 
     #startChatbutton {
-        font-family: 'Kalam';
-        color: rgb(10, 8, 0);
-        font-size: 5px;
-        background-color: rgb(255, 132, 1);
-        
+        font-size: 15px;   
     }
 
 }

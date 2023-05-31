@@ -50,7 +50,7 @@ const Profile = () => {
         <ListGroup.Item>Email: {user.email}</ListGroup.Item>
         <ListGroup.Item>
           Conversations:
-          <ul>
+          <ul id='savedchat'>
             {conversations.map((item, index) => (
               <li key={item._id}>
                 <div className="conversation-item">
