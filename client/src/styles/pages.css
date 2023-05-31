@@ -90,7 +90,7 @@ h1 {
 
     #surveyform {
         margin: 0 auto;
-        margin-top: 175px;
+        margin-top: 150px;
         width: 100%;
         border: 5px solid white;
         border-radius: 20px;
@@ -101,7 +101,7 @@ h1 {
     }
 
     #surveyform p {
-        font-size: 30px;
+        font-size: 25px;
         color: white;
         margin-bottom: 20px;
     }
@@ -119,7 +119,7 @@ h1 {
 
     #chatarea {
         width: 99%;
-        height: 530px;
+        height: 400px;
         overflow-y: scroll;
         overflow-x: hidden;
         background-image: url(../../public/img/paper.jpg);
