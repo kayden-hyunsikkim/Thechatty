@@ -22,6 +22,9 @@ const Header = () => {
         <Nav className="me-auto">
           <Nav.Link  id='home' as={Link} to="/" >⚝ Home</Nav.Link>
         </Nav>
+        <Nav >
+          <Nav.Link  id='home' as={Link} to="/me" >Your chat history</Nav.Link>
+        </Nav>
       </Container>
     </Navbar>
     </div>

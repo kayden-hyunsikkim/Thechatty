@@ -13,7 +13,7 @@ import Form from 'react-bootstrap/Form';
 import { ADD_CHAT, ADD_GENERATEAI, ADD_CONVERSATION } from '../utils/mutations';
 import { QUERY_USER, QUERY_ME, QUERY_TYPE, QUERY_CHAT, QUERY_ANSWER } from '../utils/queries';
 
-
+import '../styles/pages.css';
 import ChatList from '../components/Chatlist';
 import AnswerList from '../components/Answerlist';
 import Auth from '../utils/auth';
@@ -42,8 +42,8 @@ import Auth from '../utils/auth';
 const Chat = () => {
 
     
-    const [isLoading, setLoading] = useState(false); // loading for spinner
-
+    const [isLoading, setLoading] = useState(false); // loading for sendspinner
+    const [chatLoading, setchatLoading] = useState(false); // loading for spinner
     const logout = (event) => {
         event.preventDefault();
         Auth.logout();
@@ -107,7 +107,7 @@ const Chat = () => {
 
     const handleChatSubmit = async (event) => {
         event.preventDefault();
-        setLoading(true); // make the spinner work
+        setLoading(true); // make the send spinner work
         console.log(chatState);
         const { chat } = chatState;
         console.log(chat);
@@ -146,6 +146,8 @@ const Chat = () => {
         const newanswerArray = parsedanswerData.map((data) => data.answer);
         console.log(newanswerArray);
 
+        setchatLoading(true);
+
         try {
             for (let i = 0; i < newChatArray.length; i++) {
                 await addConversation({
@@ -155,6 +157,8 @@ const Chat = () => {
                         user_id: user._id, // 사용자 ID 추가
                     },
                 });
+
+                setchatLoading(false);
 
                 console.log('Conversation saved successfully!');
                 // Additional tasks to perform here
@@ -234,7 +238,7 @@ const Chat = () => {
             <div>
                 <Container fluid className="mt-5">
                     <Row>
-                        <Col xs={12} id="chatarea" ref={chatAreaRef} style={{ height: '400px', overflowY: 'scroll', overflowX: 'hidden' }}>
+                        <Col xs={12} id="chatarea" ref={chatAreaRef} >
                             {chats.map((chat, index) => (
                                 <React.Fragment key={index}>
                                     <ChatList chats={[chat]} title="You" />
@@ -279,8 +283,21 @@ const Chat = () => {
                 </Form>
 
                 <Container className="d-flex justify-content-center">
-                    <Button id='button' variant='outline-danger' className="m-2" onClick={handleProfileButtonClick}>
-                        save chat
+                    <Button id='button' variant='outline-danger' className="m-2" onClick={handleProfileButtonClick} disabled={chatLoading}>
+                    {chatLoading ? (
+                            <>
+                                <Spinner
+                                    as="span"
+                                    animation="border"
+                                    size="sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                />
+                                <span className="ms-1">Loading...</span>
+                            </>
+                        ) : (
+                            'save chat' // 로딩 중이 아닌 경우 텍스트 표시
+                        )}
                     </Button>
                     <Button as={Link} id='button' variant='outline-danger' className="m-2" to="/me">
                         Finish chat

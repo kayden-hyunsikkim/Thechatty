@@ -2,15 +2,16 @@
     margin: 0 auto;
     margin-top: 60px;
     width: 500px;
-    border:5px solid white;
+    border: 5px solid white;
     border-radius: 20px;
     padding: 100px;
-    backdrop-filter: blur(100px); /* 흐림 효과 적용 */
+    backdrop-filter: blur(100px);
+    /* 흐림 효과 적용 */
 
 }
 
 #surveyform p {
-    font-size: 30px;
+    font-size: 36px;
     color: white;
     margin-bottom: 20px;
 }
@@ -18,14 +19,14 @@
 h1 {
     color: white;
     text-align: center;
-    margin-top:30px;
+    margin-top: 30px;
 }
 
 #gotochat {
     margin-top: 30px;
 }
 
-#formgroup{
+#formgroup {
     width: 90%;
     display: inline-block;
 }
@@ -35,15 +36,15 @@ h1 {
 }
 
 #chatarea {
-    width:98.7%;
-    height:350px;
+    width: 98.7%;
+    height: 350px;
     overflow-y: scroll;
     overflow-x: hidden;
     background-image: url(../../public/img/paper.jpg);
     background-size: cover;
     background-position: center;
     border-radius: 10px;
-    border:10px solid white;
+    border: 10px solid white;
 }
 
 
@@ -51,4 +52,88 @@ h1 {
     border-top: 1px solid #ccc;
     margin-top: 10px;
     margin-bottom: 10px;
-  }
+}
+
+#savedchat {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+
+@media screen and (min-width:1500px) {
+
+    #surveyform {
+        margin-top: 160px;
+    }
+
+    #chatarea {
+        height: 550px;
+    }
+
+    #savedchat {
+        max-height: 560px;
+        
+    }
+
+}
+
+
+
+
+@media screen and (max-width: 480px) {
+
+    html,
+    body {
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    #surveyform {
+        margin: 0 auto;
+        margin-top: 175px;
+        width: 100%;
+        border: 5px solid white;
+        border-radius: 20px;
+        padding: 100px;
+        backdrop-filter: blur(100px);
+        /* 흐림 효과 적용 */
+
+    }
+
+    #surveyform p {
+        font-size: 30px;
+        color: white;
+        margin-bottom: 20px;
+    }
+
+    #formgroup {
+        width: 99%;
+        display: inline-block;
+    }
+
+    #sendBtn {
+        display: inline-block;
+        width: 94%;
+        font-weight: bold;
+    }
+
+    #chatarea {
+        width: 99%;
+        height: 530px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        background-image: url(../../public/img/paper.jpg);
+        background-size: cover;
+        background-position: center;
+        border-radius: 10px;
+        border: 10px solid white;
+    }
+
+    #savedchat {
+        max-height: 590px;
+        overflow-y: auto;
+    }
+
+
+
+}
