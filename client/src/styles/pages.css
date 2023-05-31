@@ -119,7 +119,7 @@ h1 {
 
     #chatarea {
         width: 99%;
-        height: 250px;
+        height: 350px;
         overflow-y: scroll;
         overflow-x: hidden;
         background-image: url(../../public/img/paper.jpg);
