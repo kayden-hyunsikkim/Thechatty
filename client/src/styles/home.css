@@ -62,3 +62,73 @@ main p {
         opacity: 1;
     }
 }
+
+
+@media screen and (min-width:1520px) {
+
+    main {
+        height: 600px;
+        margin: 100px;
+        padding: 50px;
+        border: 5px solid white;
+        border-radius: 20px;
+        backdrop-filter: blur(6px);
+
+    }
+
+
+    main p {
+        text-align: center;
+        color: black;
+        text-shadow: 0 0 1px black;
+        font-size:25px;
+    }
+
+    #heading {
+        font-size: 90px;
+        font-family: 'Allan';
+    }
+
+}
+
+
+@media screen and (max-width:480px) {
+
+    main {
+        height: 300px;
+        margin: 20px;
+        padding: 50px;
+        border: 5px solid white;
+        border-radius: 20px;
+        backdrop-filter: blur(6px);
+
+    }
+
+
+    main p {
+        text-align: center;
+        color: black;
+        text-shadow: 0 0 1px black;
+        font-size:5px;
+    }
+
+    #heading {
+        font-size: 30px;
+        font-family: 'Allan';
+    }
+
+    #button {
+        color: white;
+        font-size: 5px;
+        background-color: rgb(255, 132, 1);
+    }
+
+    #startChatbutton {
+        font-family: 'Kalam';
+        color: rgb(10, 8, 0);
+        font-size: 5px;
+        background-color: rgb(255, 132, 1);
+        
+    }
+
+}

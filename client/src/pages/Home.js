@@ -54,6 +54,7 @@ const Home = () => {
       <div>
         {Auth.loggedIn() ? (
           <>
+          <br></br>
             <Container className="d-flex justify-content-center">
               <Button id='startChatbutton' as={Link} variant='outline-danger' className="m-2" to="/survey">
                 <span className="excited-text">Hi! {Auth.getProfile().data.username}! Do you want to start chatting?</span>
