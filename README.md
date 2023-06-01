@@ -40,13 +40,19 @@ Choose your preferred chat type and indulge in the ultimate chat experience with
 
 Project is created with:
 
-- MongoDB
-- Express.js
 - React.js
 - Node.js
-- JavaScript
-- GraphQL API
-- Apollo Server
+- MongoDB
+- Express.js
+- Packages: Mongoose, JsonWebToken(JWT), BCrypt, DotEnv, GraphQL, Apollo Server, Web-vitals
+- react-bootstrap, bootstrap
+- New Technology: OpenAI (chat GPT)
+- Heroku & Github 
+- VS Code
+- Slack
+- Google Slides
+- Figma
+
 
 ## Installation
 
