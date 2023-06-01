@@ -22,6 +22,7 @@ main p {
 
 
 #button {
+    margin-top: 10px;
     color: white;
     font-size: 20px;
     background-color: rgb(255, 132, 1);
@@ -83,6 +84,37 @@ main p {
     }
 
 }
+
+@media screen and (max-width: 760px)  {
+
+    html, body {
+        height: 100%;
+        overflow-y: auto;
+      }
+
+    main {
+        height: 630px;
+        margin: 10px;
+        padding: 50px;
+        backdrop-filter: blur(6px);
+
+    }
+
+
+    main p {
+        font-size:18px;
+    }
+
+    #heading {
+        font-size: 60px;
+    }
+
+    #startChatbutton {
+        font-size: 15px;   
+    }
+
+}
+
 
 
 @media screen and (max-width: 480px)  {
