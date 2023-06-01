@@ -105,6 +105,7 @@ const resolvers = {
       const Aianswer = await Answer.create({ answer: chatResult }); // --> creat a new answer data from Ai
       console.log(Aianswer);
     
+      
 
 
       return Aianswer;
