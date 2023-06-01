@@ -113,6 +113,8 @@ This application works in mobile as well (Android and iOS) - below screenshot is
 ⚠️ design suits for Galaxy S20 screen size (it might be slightly different in other mobiles)
 <br>
 
+
+
 ## License
 N/A
 
