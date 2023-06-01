@@ -60,7 +60,7 @@ const Profile = () => {
                   <br />
                   <strong>Chatty said :</strong> {item.answer}
                 </div>
-                {index !== conversations.length - 1 && <hr className="conversation-divider" />} {/* 마지막 아이템이 아닌 경우에만 구분선 표시 */}
+                {index !== conversations.length - 1 && <hr className="conversation-divider" />} 
               </li>
             ))}
           </ul>
