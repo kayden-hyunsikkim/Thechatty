@@ -130,7 +130,7 @@ h1 {
     }
 
     #savedchat {
-        max-height: 430px;
+        max-height: 400px;
         overflow-y: auto;
     }
 
