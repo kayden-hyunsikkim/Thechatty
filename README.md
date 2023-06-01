@@ -99,6 +99,11 @@ npm run develop
 ![Screenshot](./client/public/img/Screenshot%20survey.png)
 ![Screenshot](./client/public/img/Screenshot%20chat.png)
 ![Screenshot](./client/public/img/Screenshot%20profile.png)
+<br>
+This application works in mobile as well (Android and iOS) - below screenshot is for Galaxy S20
+![Screenshot](./client/public/img)
+<br>
+⚠️ design suits for Microsoft Edge (it might be slightly different in other browsers)
 
 ## License
 N/A
