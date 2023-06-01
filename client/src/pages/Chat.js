@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
+import { useApolloClient, useMutation } from '@apollo/client';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import Form from 'react-bootstrap/Form';
 
-import { ADD_CHAT, ADD_GENERATEAI, ADD_CONVERSATION } from '../utils/mutations';
+import { ADD_CHAT, ADD_GENERATEAI, ADD_CONVERSATION,DELETE_ALL_DATA } from '../utils/mutations';
 import { QUERY_USER, QUERY_ME, QUERY_TYPE, QUERY_CHAT, QUERY_ANSWER } from '../utils/queries';
 
 import '../styles/pages.css';
@@ -19,27 +19,26 @@ import AnswerList from '../components/Answerlist';
 import Auth from '../utils/auth';
 
 
-// ============== voice recognition =============================
-//const voiceRecognition = () => {
-//    const SpeechRecognition = window.webkitSpeechRecognition;
-//    const recognition = new SpeechRecognition();
-//    const textbox = document.querySelector('#chatwindow');
-//    const instructions = document.querySelector('#instruction');
-//    const voiceBtn = document.querySelector('#recognition');
-//
-//    recognition.continuous = true;
-//
-//    voiceBtn.addEventListener('click', function () {
-//        console.log('voice recognition')
-//
-//        instructions.innerHTML = "voice recognition";
-//    });
-//
-//}
-
-// ==============================================================
 
 const Chat = () => {
+
+    //=========== reset all the chat,answer datas and caches ================// 
+    const [deleteAllData] = useMutation(DELETE_ALL_DATA);
+    const client = useApolloClient();
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            await deleteAllData();
+            client.resetStore();
+            console.log('Data deleted successfully.');
+          } catch (error) {
+            console.error('Error deleting data:', error);
+          }
+        };
+        fetchData();
+      }, []);
+ //=============================================================================// 
 
     
     const [isLoading, setLoading] = useState(false); // loading for sendspinner
@@ -86,7 +85,7 @@ const Chat = () => {
 
                 cache.writeQuery({
                     query: QUERY_ANSWER,
-                    data: { answer: [addAnswer, ...answer] }, // 수정: data 객체에 answer 필드 추가
+                    data: { answer: [addAnswer, ...answer] }, 
                 });
             } catch (e) {
                 console.error(e);
@@ -102,7 +101,6 @@ const Chat = () => {
         event.preventDefault();
         const { value } = event.target;
         setChatState({ ...chatState, chat: value, });
-        //console.log(chatState);
     };
 
     const handleChatSubmit = async (event) => {
@@ -154,14 +152,14 @@ const Chat = () => {
                     variables: {
                         chat: newChatArray[i],
                         answer: parsedanswerData[i].answer,
-                        user_id: user._id, // 사용자 ID 추가
+                        user_id: user._id, // add user id 
                     },
                 });
 
                 setchatLoading(false);
 
                 console.log('Conversation saved successfully!');
-                // Additional tasks to perform here
+    
             }
 
         } catch (error) {
@@ -169,7 +167,7 @@ const Chat = () => {
         }
     };
 
-    // 프로필 버튼을 클릭했을 때 saveConversation 함수 호출
+
     const handleProfileButtonClick = () => {
         saveConversation();
     };
@@ -179,38 +177,36 @@ const Chat = () => {
     const { loading: chatloading, data: chatdata } = useQuery(QUERY_CHAT);
     const chats = chatdata?.chat || [];
      console.log(chats);
-    //console.log(chats[0].chat)
     const chatlog = JSON.stringify(chats);
     localStorage.setItem('chatlog', chatlog);
 
     const { loading: answerloading, data: answerdata } = useQuery(QUERY_ANSWER);
     const answers = answerdata?.answer || [];
     console.log(answers);
-    //console.log(answers[0].answer)
     const answerlog = JSON.stringify(answers);
     localStorage.setItem('answerlog', answerlog);
 
     const chatAreaRef = useRef(null);
 
-    // 스크롤을 아래로 이동시키는 함수
+    // vertical scroll funtion for chatting prompt
     const scrollToBottom = () => {
         if (chatAreaRef.current) {
             chatAreaRef.current.scrollTop = chatAreaRef.current.scrollHeight;
         }
     };
 
-    // 새로운 채팅이 추가될 때마다 스크롤을 아래로 이동
+    // vertical scroll down whenever new chat added
     useEffect(() => {
         scrollToBottom();
-    }, [chats]); // chats 배열에 변화가 있을 때마다 호출되도록 설정
+    }, [chats]); // call useeffect whenever chats change
 
-    // 답변이 추가될 때마다 스크롤을 아래로 이동
+    // vertical scroll down whenever new answer added
   useEffect(() => {
     scrollToBottom();
-  }, [answers]); // answers 배열에 변화가 있을 때마다 호출되도록 설정
+  }, [answers]); // call useeffect whenever answers change
 
     const user = data?.me || data?.user || {};
-    //const userId = user._id;
+   
 
     // navigate to personal profile page if username is yours
     if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
@@ -276,7 +272,7 @@ const Chat = () => {
                                 <span className="ms-1">Loading...</span>
                             </>
                         ) : (
-                            'Send✈️' // 로딩 중이 아닌 경우 텍스트 표시
+                            'Send✈️' 
                         )}
 
                     </Button>
@@ -296,7 +292,7 @@ const Chat = () => {
                                 <span className="ms-1">Loading...</span>
                             </>
                         ) : (
-                            'save chat' // 로딩 중이 아닌 경우 텍스트 표시
+                            'save chat'
                         )}
                     </Button>
                     <Button as={Link} id='button' variant='outline-danger' className="m-2" to="/me">

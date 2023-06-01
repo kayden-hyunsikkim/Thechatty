@@ -16,9 +16,9 @@ const styles = {
 };
 
 const Home = () => {
-  const [typingText, setTypingText] = useState(''); // 타이핑 중인 텍스트 상태
-  const [displayText, setDisplayText] = useState(''); // 화면에 표시될 텍스트 상태
-  const text = "The Chatty"; // 표시될 텍스트
+  const [typingText, setTypingText] = useState(''); // typing text is typing
+  const [displayText, setDisplayText] = useState(''); // when typing is completed and showing the text in UI
+  const text = "The Chatty"; 
 
   const logout = (event) => {
     event.preventDefault();
@@ -32,9 +32,9 @@ const Home = () => {
     const typeText = async () => {
       for (let i = 0; i < text.length; i++) {
         setTypingText((prevText) => prevText + text[i]);
-        await new Promise((resolve) => setTimeout(resolve, 300)); // 100ms마다 한 글자씩 추가
+        await new Promise((resolve) => setTimeout(resolve, 300)); // added one letter each every 300ms
       }
-      setDisplayText(text); // 타이핑 완료 후 텍스트 표시
+      setDisplayText(text); 
     };
     typeText();
   }, [text]);

@@ -85,7 +85,7 @@ const resolvers = {
       const configuration = new Configuration({
         apiKey: apiKey
       });
-      // OpenAI API 호출
+      // call OpenAI API
       const openai = new OpenAIApi(configuration);
       const completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
@@ -98,11 +98,10 @@ const resolvers = {
       });
       
 
-      // API 응답에서 대화 결과 추출
+      // from API
       const chatResult = completion.data.choices[0].message.content;
-      //console.log(chatResult);
-
-      //await Answer.deleteMany(); // --> delete all old answer data first (this should be deleted)
+    
+      
       const Aianswer = await Answer.create({ answer: chatResult }); // --> creat a new answer data from Ai
       console.log(Aianswer);
     
@@ -123,12 +122,12 @@ const resolvers = {
     deleteAllData: async () => {
 
       try {
-        await Chat.deleteMany(); // 이 부분에서 await 키워드를 사용하여 Promise가 처리될 때까지 대기합니다.
-        await Answer.deleteMany(); // 이 부분에서도 await 키워드를 사용합니다.
-        return true; // 데이터 삭제가 성공했을 경우 true를 반환합니다.
+        await Chat.deleteMany(); 
+        await Answer.deleteMany(); 
+        return true; 
       } catch (error) {
         console.error(error);
-        return false; // 데이터 삭제가 실패했을 경우 false를 반환합니다.
+        return false; 
       }
     },
   },

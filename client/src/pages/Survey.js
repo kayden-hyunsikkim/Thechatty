@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Navigate, useParams, useNavigate } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
+import { useApolloClient,useMutation } from '@apollo/client';
 import { ADD_TYPE } from '../utils/mutations';
 import { useQuery } from '@apollo/client';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { DELETE_ALL_DATA } from '../utils/mutations';
+
 
 
 import { QUERY_USER, QUERY_ME } from '../utils/queries';
@@ -15,6 +17,26 @@ import Auth from '../utils/auth';
 
 
 const Survey = () => { 
+    //=========== reset all the chat,answer datas and caches ================// 
+  const [deleteAllData] = useMutation(DELETE_ALL_DATA);
+  const client = useApolloClient();
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await deleteAllData();
+        client.resetStore();
+        console.log('Data deleted successfully.');
+      } catch (error) {
+        console.error('Error deleting data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+   //=============================================================================// 
+
+   
   const navigate = useNavigate()
   const { username: userParam } = useParams();
 
@@ -24,6 +46,9 @@ const Survey = () => {
 
 
   const [selectedType, setSelectedType] = useState({type: ''}); // 선택된 옵션을 추적하는 상태
+
+
+
 
   const [addType, { typedata }] = useMutation(ADD_TYPE);
 
