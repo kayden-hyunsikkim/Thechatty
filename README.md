@@ -34,7 +34,8 @@ Engage in captivating chats with our diverse range of virtual companions:
 
 <br><br>
 Choose your preferred chat type and indulge in the ultimate chat experience with TheChatty. Unleash the power of conversation like never before!
-
+<br><br>
+And This application can be installed on your local device as well!!!!
 
 ## Technology:
 
