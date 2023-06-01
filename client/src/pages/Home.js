@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
-import { useApolloClient,useMutation } from '@apollo/client';
+import { useApolloClient, useMutation } from '@apollo/client';
 import Auth from '../../src/utils/auth';
 import Container from 'react-bootstrap/Container';
 import { DELETE_ALL_DATA } from '../utils/mutations';
-
-
 
 import '../styles/home.css';
 
@@ -15,10 +13,12 @@ const styles = {
     backgroundColor: '#008080',
     border: 'none',
   },
-}
-
+};
 
 const Home = () => {
+  const [typingText, setTypingText] = useState(''); // 타이핑 중인 텍스트 상태
+  const [displayText, setDisplayText] = useState(''); // 화면에 표시될 텍스트 상태
+  const text = "The Chatty"; // 표시될 텍스트
 
   const logout = (event) => {
     event.preventDefault();
@@ -28,12 +28,21 @@ const Home = () => {
 
   const [deleteAllData] = useMutation(DELETE_ALL_DATA);
 
+  useEffect(() => {
+    const typeText = async () => {
+      for (let i = 0; i < text.length; i++) {
+        setTypingText((prevText) => prevText + text[i]);
+        await new Promise((resolve) => setTimeout(resolve, 300)); // 100ms마다 한 글자씩 추가
+      }
+      setDisplayText(text); // 타이핑 완료 후 텍스트 표시
+    };
+    typeText();
+  }, [text]);
 
   useEffect(() => {
     const fetchData = async () => {
-
       try {
-        await deleteAllData(); 
+        await deleteAllData();
         client.resetStore();
         console.log('Data deleted successfully.');
       } catch (error) {
@@ -41,25 +50,25 @@ const Home = () => {
       }
     };
     fetchData();
-
   }, []);
-
-
-
 
   return (
     <main>
-      <p id="heading" style={styles.text}>The Chatty</p>
+      <p id="heading" style={styles.text}>
+        {typingText}
+      </p>
       <p style={styles.text}>The Chatty's chatbot is a product of innovative artificial intelligence technology, interacting with users in various fields and providing valuable conversations. This chatbot is based on the large language model ChatGPT and has great natural language processing capabilities. The The Chatty chatbot understands users' questions and requests and provides appropriate answers.</p>
       <div>
         {Auth.loggedIn() ? (
           <>
-          <br></br>
+            <br></br>
             <Container className="d-flex justify-content-center">
-              <Button id='startChatbutton' as={Link} variant='outline-danger' className="m-2" to="/survey">
-                <span className="excited-text">Hi! <span id="username">{Auth.getProfile().data.username}</span>! Do you want to start chatting?</span>
+              <Button id="startChatbutton" as={Link} variant="outline-danger" className="m-2" to="/survey">
+                <span className="excited-text">
+                  Hi! <span id="username">{Auth.getProfile().data.username}</span>! Do you want to start chatting?
+                </span>
               </Button>
-              <Button id='button' variant='outline-danger' className="m-2" onClick={logout}>
+              <Button id="button" variant="outline-danger" className="m-2" onClick={logout}>
                 Logout
               </Button>
             </Container>
@@ -67,17 +76,17 @@ const Home = () => {
         ) : (
           <>
             <Container className="d-flex justify-content-center">
-              <Button id='button' as={Link} variant='outline-danger' className="m-2" to="/login">
+              <Button id="button" as={Link} variant="outline-danger" className="m-2" to="/login">
                 Login
               </Button>
-              <Button id='button' as={Link} variant='outline-danger' className="m-2" to="/signup">
+              <Button id="button" as={Link} variant="outline-danger" className="m-2" to="/signup">
                 Signup
               </Button>
             </Container>
           </>
         )}
       </div>
-    </main >
+    </main>
   );
 };
 
