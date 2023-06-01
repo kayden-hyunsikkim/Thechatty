@@ -77,6 +77,73 @@ h1 {
 
 }
 
+@media screen and (max-width: 760px) {
+
+   
+    #surveyform {
+        margin: 0 auto;
+        margin-top: 60px;
+        width: 500px;
+        border: 5px solid white;
+        border-radius: 20px;
+        padding: 100px;
+        backdrop-filter: blur(100px);
+        /* 흐림 효과 적용 */
+    
+    }
+    
+    #surveyform p {
+        font-size: 36px;
+        color: white;
+        margin-bottom: 20px;
+    }
+    
+    h1 {
+        color: white;
+        text-align: center;
+        margin-top: 30px;
+    }
+    
+    #gotochat {
+        margin-top: 30px;
+    }
+    
+    #formgroup {
+        width: 90%;
+        display: inline-block;
+    }
+    
+    #sendBtn {
+        float: right;
+    }
+    
+    #chatarea {
+        width: 98.7%;
+        height: 350px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        background-image: url(../../public/img/paper.jpg);
+        background-size: cover;
+        background-position: center;
+        border-radius: 10px;
+        border: 10px solid white;
+    }
+    
+    
+    .conversation-divider {
+        border-top: 1px solid #ccc;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    
+    #savedchat {
+        max-height: 350px;
+        overflow-y: auto;
+    }
+
+
+
+}
 
 
 
